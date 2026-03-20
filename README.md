@@ -1,3 +1,5 @@
+Claude接管这个仓库
+
 # my-vue2-project
 
 ## Project setup
