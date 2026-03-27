@@ -1,16 +1,36 @@
 <template>
     <div id="app">
-        <BatchEditConfig businessType="1" />
+        <!-- <BatchEditConfig businessType="1" /> -->
+
+        <Button @click="showBatchEdit = true" type="primary">打开批量编辑</Button>
+
+        <BatchEditModal
+            v-model="showBatchEdit"
+            :assetIds="['LAND_1', 'LAND_2', 'BUILDING_1']"
+            @submit="handleSubmit"
+        />
     </div>
 </template>
 
 <script>
-import BatchEditConfig from "./components/zdpz/views/batch-edit-config/BatchEditConfig.vue";
+// import BatchEditConfig from "./components/zdpz/views/batch-edit-config/BatchEditConfig.vue";
+import BatchEditModal from "./components/plbj/views/batchEdit/index.js";
 
 export default {
     name: "App",
     components: {
-        BatchEditConfig,
+        // BatchEditConfig,
+        BatchEditModal,
+    },
+    data() {
+        return {
+            showBatchEdit: false,
+        };
+    },
+    methods: {
+        handleSubmit(data) {
+            console.log("批量编辑提交的数据:", data);
+        },
     },
 };
 </script>
