@@ -44,7 +44,7 @@ import LeftPanel from './LeftPanel.vue'
 import MiddlePanel from './MiddlePanel.vue'
 import RightPanel from './RightPanel.vue'
 
-import { getPlanList, getAssetTree, getAssetFields, getPlanDetail, addPlan, updatePlan, deletePlan, savePlanConfig, resetPlanConfig } from './mock'
+import { getPlanList, getAssetTree, getAssetFields, getPlanDetail, deletePlan, savePlanConfig, resetPlanConfig } from './mock'
 
 export default {
   name: 'BatchEditConfig',
@@ -196,7 +196,7 @@ export default {
     /**
      * 字段排序变更
      */
-    handleSortChange({ fieldKey, direction, fromGroup, toGroup }) {
+    handleSortChange() {
       // TODO: 实现字段排序逻辑
       this.hasChanges = true
     },

@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import BatchEditConfig from "./components/zdpz/modules/batch-edit-config/components/BatchEditConfig.vue";
+import BatchEditConfig from "./components/zdpz/views/batch-edit-config/BatchEditConfig.vue";
 
 export default {
     name: "App",
@@ -24,5 +24,10 @@ export default {
 
 html, body {
     overflow-x: hidden;
+    height: 100%;
+}
+
+#app {
+    height: 100%;
 }
 </style>

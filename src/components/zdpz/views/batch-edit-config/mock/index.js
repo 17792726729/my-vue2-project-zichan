@@ -3,7 +3,7 @@
  * 后端接口开发完成后，将替换为真实的GAMS.Util.invokeServer调用
  */
 
-import { CARD_DEFINE_NAME, ASSET_CATEGORY } from '../constants'
+import { ASSET_CATEGORY } from '../constants'
 
 /**
  * 模拟延迟
@@ -266,7 +266,7 @@ export function getAssetFields(cardDefine) {
 /**
  * 保存方案配置
  */
-export function savePlanConfig(params) {
+export function savePlanConfig() {
   return delay().then(() => ({
     code: '0',
     message: 'success'
@@ -276,7 +276,7 @@ export function savePlanConfig(params) {
 /**
  * 重置方案配置
  */
-export function resetPlanConfig(planId) {
+export function resetPlanConfig() {
   return delay().then(() => ({
     code: '0',
     message: 'success'
