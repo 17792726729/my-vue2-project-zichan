@@ -1,50 +1,52 @@
 <template>
   <div class="batch-edit-table">
-    <vxe-table
-      ref="tableRef"
-      :data="data"
-      :loading="loading"
-      :edit-config="{ trigger: 'click', mode: 'cell' }"
-      :column-config="{ resizable: true, minWidth: 100 }"
-      :scroll-y="{ enabled: true }"
-      :scroll-x="{ enabled: true }"
-      height="auto"
-      border
-      show-overflow
-      @scroll="handleScroll"
-    >
-      <vxe-table-column type="seq" title="序号" width="60" fixed="left" />
-      <!-- <vxe-table-column type="checkbox" width="40" fixed="left" /> -->
-
-      <vxe-table-column
-        v-for="col in visibleColumns"
-        :key="col.field"
-        :field="col.field"
-        :title="col.title"
-        :min-width="col.minWidth || 100"
-        :edit-render="col.editable ? { name: getEditRenderType(col) } : null"
+    <div class="table-container">
+      <vxe-table
+        ref="tableRef"
+        :data="data"
+        :loading="loading"
+        :edit-config="{ trigger: 'click', mode: 'cell' }"
+        :column-config="{ resizable: true, minWidth: 100 }"
+        :scroll-y="{ enabled: true }"
+        :scroll-x="{ enabled: true }"
+        height="auto"
+        border
+        show-overflow
+        @scroll="handleScroll"
       >
-        <template #default="{ row }">
-          <span
-            v-if="isErrorCell(row.id, col.field)"
-            class="error-cell"
-            :title="getErrorMessage(row.id, col.field)"
-          >
-            {{ row[col.field] }}
-          </span>
-          <span v-else>{{ row[col.field] }}</span>
-        </template>
+        <vxe-table-column type="seq" title="序号" width="60" fixed="left" />
+        <!-- <vxe-table-column type="checkbox" width="40" fixed="left" /> -->
 
-        <template #edit="{ row }">
-          <component
-            :is="getEditComponent(col)"
-            v-model="row[col.field]"
-            v-bind="getEditProps(col)"
-            @change="handleCellChange($event, row, col.field)"
-          />
-        </template>
-      </vxe-table-column>
-    </vxe-table>
+        <vxe-table-column
+          v-for="col in visibleColumns"
+          :key="col.field"
+          :field="col.field"
+          :title="col.title"
+          :min-width="col.minWidth || 100"
+          :edit-render="col.editable ? { name: getEditRenderType(col) } : null"
+        >
+          <template #default="{ row }">
+            <span
+              v-if="isErrorCell(row.id, col.field)"
+              class="error-cell"
+              :title="getErrorMessage(row.id, col.field)"
+            >
+              {{ row[col.field] }}
+            </span>
+            <span v-else>{{ row[col.field] }}</span>
+          </template>
+
+          <template #edit="{ row }">
+            <component
+              :is="getEditComponent(col)"
+              v-model="row[col.field]"
+              v-bind="getEditProps(col)"
+              @change="handleCellChange($event, row, col.field)"
+            />
+          </template>
+        </vxe-table-column>
+      </vxe-table>
+    </div>
 
     <!-- 分页 -->
     <div class="table-pagination">
@@ -219,11 +221,17 @@ export default {
 
 <style lang="less" scoped>
 .batch-edit-table {
-  flex: 1;
+  // flex: 1;
+  height: 100%;
   display: flex;
   flex-direction: column;
   min-height: 200px;
   background: #fff;
+
+  .table-container {
+    flex: 1;
+    overflow: hidden;
+  }
 
   .error-cell {
     color: #f56c6c;

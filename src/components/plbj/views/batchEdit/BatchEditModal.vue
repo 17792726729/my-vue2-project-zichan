@@ -4,7 +4,6 @@
     title="批量编辑"
     width="100%"
     fullscreen
-    class-name="batch-edit-modal"
     @on-cancel="handleCancel"
   >
     <div class="batch-edit-content">
@@ -31,7 +30,31 @@
       </Tabs>
 
       <!-- 表格 -->
+      <template v-if="showValidationPanel">
+        <Split v-model="splitRatio" :min="0.5" mode="vertical">
+          <div slot="top" class="split-top">
+            <BatchEditTable
+              ref="tableRef"
+              :data="displayData"
+              :field-config="fieldConfig"
+              :validations="validations"
+              :loading="loading"
+              :show-error-only="showErrorOnly"
+              @edit="handleCellEdit"
+              @select="handleSelect"
+            />
+          </div>
+          <div slot="bottom" class="split-bottom">
+            <ValidationPanel
+              :validations="validations"
+              @jump="handleJumpToRow"
+              @hide="showValidationPanel = false"
+            />
+          </div>
+        </Split>
+      </template>
       <BatchEditTable
+        v-else
         ref="tableRef"
         :data="displayData"
         :field-config="fieldConfig"
@@ -40,13 +63,6 @@
         :show-error-only="showErrorOnly"
         @edit="handleCellEdit"
         @select="handleSelect"
-      />
-
-      <!-- 校验结果面板 -->
-      <ValidationPanel
-        v-if="showValidationPanel"
-        :validations="validations"
-        @jump="handleJumpToRow"
       />
     </div>
 
@@ -101,7 +117,8 @@ export default {
       selectedRows: [],
       modifiedData: new Map(),
       showValidationPanel: false,
-      searchKeyword: ''
+      searchKeyword: '',
+      splitRatio: 0.9
     }
   },
 
@@ -293,6 +310,11 @@ export default {
       }
     },
 
+    // 拖拽分割条
+    handleSplitMove() {
+      // 可以在这里处理拖拽过程中的逻辑
+    },
+
     // 是否有未保存数据
     hasModifiedData() {
       return this.modifiedData.size > 0
@@ -349,28 +371,21 @@ export default {
 }
 </script>
 
-<style lang="less">
-.batch-edit-modal {
-  .ivu-modal-body {
-    height: calc(100vh - 110px);
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-  }
+<style lang="less" scoped>
+.batch-edit-content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
 
-  .batch-edit-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
+.split-top {
+  height: 100%;
+  overflow: hidden;
+}
 
-  .batch-edit-footer {
-    text-align: right;
-
-    .ivu-btn + .ivu-btn {
-      margin-left: 8px;
-    }
-  }
+.split-bottom {
+  height: 100%;
+  overflow: hidden;
 }
 </style>

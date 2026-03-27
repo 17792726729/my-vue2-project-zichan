@@ -5,15 +5,15 @@
       <span class="error-count" v-if="validations.length > 0">
         共 {{ validations.length }} 条错误
       </span>
+      <Button size="small" class="hide-btn" @click="$emit('hide')">隐藏</Button>
     </div>
 
     <div class="panel-content" v-if="validations.length > 0">
       <Table
         :columns="columns"
         :data="validations"
-        :height="200"
+        height="200"
         size="small"
-        border
         @on-row-click="handleRowClick"
       />
     </div>
@@ -42,7 +42,7 @@ export default {
         {
           title: '序号',
           type: 'index',
-          width: 60
+          width: 100
         },
         {
           title: '错误信息',
@@ -52,7 +52,7 @@ export default {
         {
           title: '所在行',
           key: 'id',
-          width: 120,
+          width: 200,
           render: (h, { row }) => {
             return h('span', `资产编号: ${row.id}`)
           }
@@ -71,15 +71,17 @@ export default {
 
 <style lang="less" scoped>
 .validation-panel {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
   border-top: 1px solid #e8e8e8;
-  background: #fafafa;
+  background: #fff;
 
   .panel-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 12px 16px;
-    background: #fff;
     border-bottom: 1px solid #e8e8e8;
 
     .panel-title {
@@ -94,7 +96,9 @@ export default {
   }
 
   .panel-content {
-    padding: 0 16px 16px;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
   }
 
   .panel-empty {
