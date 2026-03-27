@@ -1,10 +1,22 @@
 <template>
   <div class="middle-panel">
+    <!-- 搜索框 -->
+    <div class="search-bar">
+      <Input
+        v-model="searchValue"
+        placeholder="搜索字段"
+        clearable
+        @on-change="handleSearch"
+      >
+        <Icon type="ios-search" slot="prefix" />
+      </Input>
+    </div>
+
     <!-- 字段分组列表 -->
     <div class="field-groups">
-      <Collapse v-model="activeGroups" accordion>
+      <Collapse v-model="activeGroups">
         <Panel
-          v-for="(group, key) in fieldGroups"
+          v-for="(group, key) in filteredFieldGroups"
           :key="key"
           :name="key"
         >
@@ -32,6 +44,11 @@
           </template>
         </Panel>
       </Collapse>
+
+      <!-- 无搜索结果 -->
+      <div v-if="Object.keys(filteredFieldGroups).length === 0 && searchValue" class="search-empty">
+        未找到匹配的字段
+      </div>
     </div>
 
     <!-- 排序按钮 -->
@@ -64,6 +81,7 @@ export default {
   data() {
     return {
       activeGroups: [FIELD_GROUP_KEY.BASE],
+      searchValue: '',
       fieldGroups: {
         [FIELD_GROUP_KEY.BASE]: { title: FIELD_GROUP.BASE, fields: [] },
         [FIELD_GROUP_KEY.FINANCE]: { title: FIELD_GROUP.FINANCE, fields: [] },
@@ -73,16 +91,54 @@ export default {
       }
     }
   },
+  computed: {
+    /**
+     * 过滤后的字段分组
+     */
+    filteredFieldGroups() {
+      if (!this.searchValue) {
+        return this.fieldGroups
+      }
+
+      const search = this.searchValue.toLowerCase()
+      const filtered = {}
+
+      Object.keys(this.fieldGroups).forEach(key => {
+        const group = this.fieldGroups[key]
+        const matchedFields = group.fields.filter(field =>
+          field.title.toLowerCase().includes(search) ||
+          field.field.toLowerCase().includes(search)
+        )
+
+        if (matchedFields.length > 0) {
+          filtered[key] = {
+            ...group,
+            fields: matchedFields
+          }
+        }
+      })
+
+      return filtered
+    }
+  },
   watch: {
     fieldConfigList: {
       handler(val) {
         this.parseFieldConfig(val)
+        this.searchValue = ''
       },
       immediate: true,
       deep: true
     }
   },
   methods: {
+    /**
+     * 搜索
+     */
+    handleSearch() {
+      // 搜索逻辑通过computed属性 filteredFieldGroups 实现
+    },
+
     /**
      * 解析字段配置
      */
@@ -154,6 +210,14 @@ export default {
   overflow-y: auto;
 }
 
+.search-bar {
+  margin-bottom: 12px;
+}
+
+.search-bar .ivu-input-wrapper {
+  width: 100%;
+}
+
 .field-groups {
   flex: 1;
 }
@@ -205,6 +269,13 @@ export default {
   text-align: center;
   color: #999;
   padding: 12px;
+}
+
+.search-empty {
+  text-align: center;
+  color: #999;
+  padding: 24px;
+  font-size: 14px;
 }
 
 .sort-buttons {
