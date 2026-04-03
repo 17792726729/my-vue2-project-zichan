@@ -27,8 +27,6 @@ project
 
 打开项目时 Claude 会自动读取 .claude 下的内容
 
-详细内容见 (https://claudecn.com/docs/claude-code/advanced/starter-kit/)
-
 ## CLAUDE.md 项目说明
 
 在对话框执行 /init，Claude 会分析代码库，自动生成包含项目概述、技术栈、目录结构、常用命令的初始文件。需要手动打磨，更贴合实际业务，精简在 200 行以内。
@@ -37,7 +35,7 @@ CLAUDE.md 其实有一套层级系统，不同位置的文件覆盖的范围不�
 
 1. 全局级别：C:/Users/用户名/.claude/CLAUDE.md。
 
-2. 项目根目录：./CLAUDE.md。
+2. 项目根目录：./CLAUDE.md。项目级规范
 
 3. 子目录：./src/code/xxx模块/CLAUDE.md。适合一个 Git 仓库里有多个独立模块的场景，可以各自维护。
 
@@ -56,7 +54,7 @@ CLAUDE.md 其实有一套层级系统，不同位置的文件覆盖的范围不�
 2. **严格遵守软件开发流程**
 3. **彻底搞懂需求**：精确到界面每一个按钮的位置
 4. **模块单独开发**：每个模块完成后先让用户测试，没问题再听安排；模块之间要正确衔接
-5. **异议必问**：需求分析阶段有任何异议或不确定的地方，一定要立刻问用户，可以随时问问题
+5. **异议必问**：需求分析阶段有任何异议或不确定的地方，一定要立刻问用户，可以随时追问
 
 **Why:** 用户希望完全掌控开发节奏，避免AI擅自推进；便于独立验证每个模块，理解偏差越早发现越好
 
@@ -77,17 +75,19 @@ CLAUDE.md 其实有一套层级系统，不同位置的文件覆盖的范围不�
 
 自动委托：当你的指令和 agent 的 description 字段高度匹配时，Claude Code 会自动调用它。
 
-显式调用：请使用 code-reviewer 审查 XXX 代码
+显式调用：请使用 code-reviewer 审查 XXX 代码。
 
 ## skills 固定的工作流程
 
-将 [SKILL.md](.claude/skills/frontend-design/SKILL.md)（这是我在网上找的一个前端设计的 skill） 添加到 .claude\skills，重新加载项目后即可在对话框中输入
+在 .claude 下创建 [SKILL.md](.claude/skills/component-analyzer/SKILL.md)，重新加载项目后即可在对话框中输入，项目初始时只加载 skills 的 name 和 description，当 AI 判断需要用到某个 Skill 时，才会读取完整的 SKILL.md 和相关指令。
 
-举例：/frontend-design 请使用 XXX 风格生成一个 xxx 页面
+自动触发：当指令和 description 里的关键词 / 场景匹配时就会自动触发。
+
+显式调用：/component-analyzer 请分析 xxx 组件和它的子组件之间的组件通信关系。
 
 ## MEMORY 自动记忆
 
-Claude 在工作过程中会自主保存经验教训，内容涵盖：构建命令、调试见解、架构笔记、代码风格偏好、工作流习惯。它会自行判断哪些信息在未来对话中有复用价值，再决定是否保存。当你主动要求 Claude 记住某些事情，需告诉 Claude："记住XXXX"，Claude 会将其保存到自动记忆中。
+Claude 在工作过程中会自主保存经验教训，内容涵盖：构建命令、调试见解、代码风格偏好、工作流习惯。它会自行判断哪些信息在未来对话中有复用价值，再决定是否保存。也可以主动要求 Claude 记住某些事情，需告诉 Claude："记住XXXX"，Claude 会将其保存到自动记忆中。
 
 推荐定期整理 MEMORY，将可以规范化的内容转移到 CLAUDE.md/CLAUDE.local.md。
 
@@ -105,16 +105,19 @@ Claude 在工作过程中会自主保存经验教训，内容涵盖：构建命�
 
 ## Claude Code 插件常用操作
 
-### Esc 立即中断
-
-### Alt+k 将鼠标选中的内容添加到命令框
+### Alt+k 将鼠标选中的内容添加到对话框
 
 ### /compact
 
 上下文的内容上限一般是 100k~200k token（1 token ≈ 1.5~2 个汉字）。
 使用 **/context** 查看当前上下文。
+
 ![alt text](image-1.png)
 
 /compact 会把冗长对话智能压缩成核心摘要，释放上下文空间，建议大于 85% 就压缩一下。
+
 ![alt text](image-2.png)
+
 注意：重新进入会话就不显示之前的对话内容了，仅有一个摘要。之前的对话保存在本地文件，问AI要位置。
+
+详细内容见 (https://claudecn.com/docs/claude-code/advanced/starter-kit/)
