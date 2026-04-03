@@ -18,9 +18,8 @@
         :disabled="loading"
         @on-change="handleToggleError"
       >
-        <span slot="open">只显示错误</span>
-        <span slot="close">显示全部</span>
       </i-switch>
+      <span>是否只显示错误数据</span>
     </div>
 
     <div class="toolbar-right">
