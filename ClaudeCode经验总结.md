@@ -35,7 +35,7 @@ CLAUDE.md 其实有一套层级系统，不同位置的文件覆盖的范围不�
 
 1. 全局级别：C:/Users/用户名/.claude/CLAUDE.md。
 
-2. 项目根目录：./CLAUDE.md。项目级规范
+2. 项目根目录：./CLAUDE.md。项目级规范。
 
 3. 子目录：./src/code/xxx模块/CLAUDE.md。适合一个 Git 仓库里有多个独立模块的场景，可以各自维护。
 
@@ -81,13 +81,13 @@ CLAUDE.md 其实有一套层级系统，不同位置的文件覆盖的范围不�
 
 在 .claude 下创建 [SKILL.md](.claude/skills/component-analyzer/SKILL.md)，重新加载项目后即可在对话框中输入，项目初始时只加载 skills 的 name 和 description，当 AI 判断需要用到某个 Skill 时，才会读取完整的 SKILL.md 和相关指令。
 
-自动触发：当指令和 description 里的关键词 / 场景匹配时就会自动触发。
+自动触发：当指令和 description 里的关键词或场景匹配时就会自动触发。
 
 显式调用：/component-analyzer 请分析 xxx 组件和它的子组件之间的组件通信关系。
 
 ## MEMORY 自动记忆
 
-Claude 在工作过程中会自主保存经验教训，内容涵盖：构建命令、调试见解、代码风格偏好、工作流习惯。它会自行判断哪些信息在未来对话中有复用价值，再决定是否保存。也可以主动要求 Claude 记住某些事情，需告诉 Claude："记住XXXX"，Claude 会将其保存到自动记忆中。
+Claude 在工作过程中会自主保存经验教训，内容涵盖：构建命令、调试见解、代码风格偏好、工作流习惯。它会自行判断哪些信息在未来对话中有复用价值，再决定是否保存。也可以主动要求 Claude 记住某些事情，需告诉 Claude："请记住变量名尽量不超过10个英文字母"，Claude 会将其保存到自动记忆中。
 
 推荐定期整理 MEMORY，将可以规范化的内容转移到 CLAUDE.md/CLAUDE.local.md。
 
