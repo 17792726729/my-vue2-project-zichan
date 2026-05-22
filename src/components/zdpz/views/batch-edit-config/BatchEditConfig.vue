@@ -136,7 +136,7 @@ export default {
      */
     async handlePlanChange(planId) {
       // 检查是否有未保存的改动
-      if (this.hasChanges) {
+      if (this.hasChange) {
         // TODO: 弹出确认提示
         // const confirmed = await this.showSaveConfirm()
         // if (!confirmed) return
