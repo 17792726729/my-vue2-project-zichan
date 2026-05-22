@@ -207,7 +207,7 @@ export default {
         this.tableData = res.data || []
         this.fieldConfig = res.fieldConfig || {}
         this.validations = []
-        this.showValidationPanel = false
+        this.showValidationPanelaaa = false
         this.showErrorOnly = false
         this.modifiedData.clear()
       } catch (e) {
